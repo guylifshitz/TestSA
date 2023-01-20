@@ -57,14 +57,22 @@ class MessagesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
+  # GET tags/name/messages
+  def index_by_tag
+    tag_id = Tag.where(name: params[:name])
+    @messages = Message.where(tag_id: tag_id)
+    render "index"
+  end
 
-    # Only allow a list of trusted parameters through.
-    def message_params
-      params.require(:message).permit(:author, :body_french, :body_pioupiou, :tag_id)
-    end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def message_params
+    params.require(:message).permit(:author, :body_french, :body_pioupiou, :tag_id)
+  end
 end
